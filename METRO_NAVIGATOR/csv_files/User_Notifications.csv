@@ -1,0 +1,6 @@
+id (PK),user_id (FK),notification_id (FK),is_read
+1,U01,1,no
+2,U02,1,yes
+3,U03,2,no
+4,U01,3,yes
+5,U02,5,no

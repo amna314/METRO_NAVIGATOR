@@ -1,0 +1,23 @@
+======================================================================
+METRO NAVIGATOR - BATCH TEST RESULTS
+======================================================================
+
+Test Date: 2026-05-07 22:32:30
+Total Tests: 8
+Successful: 8
+Failed: 0
+Success Rate: 100.0%
+
+Average Response Time: 17ms
+Average Stops: 5.0
+
+DETAILED RESULTS:
+----------------------------------------------------------------------
+[PASS] Saddar -> Faizabad: 5 stops, 7ms
+[PASS] Saddar -> I-8 Markaz: 5 stops, 24ms
+[PASS] G-9 Markaz -> F-7 Markaz: 5 stops, 16ms
+[PASS] Faizabad -> Saddar: 5 stops, 19ms
+[PASS] Saddar -> Convention Centre: 5 stops, 6ms
+[PASS] I-8 Markaz -> G-9 Markaz: 5 stops, 23ms
+[PASS] F-7 Markaz -> Faizabad: 5 stops, 18ms
+[PASS] Blue Area -> Aabpara: 5 stops, 22ms

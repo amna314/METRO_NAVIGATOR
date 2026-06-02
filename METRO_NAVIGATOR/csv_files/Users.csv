@@ -1,0 +1,4 @@
+id (PK),name,email,password_hash,role
+U01,Test User,user@test.com,hashed_password_here,user
+U02,Test Admin,admin@test.com,hashed_password_here,admin
+U03,Test Admin,admin@test.com,hashed_password_here,admin

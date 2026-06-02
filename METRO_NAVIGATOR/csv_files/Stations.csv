@@ -1,0 +1,33 @@
+station_id (PK),station_name,latitude,longitude,status
+R01,Saddar ,33.5938,73.0543,active
+R02,Marrir,33.5997,73.0629,active
+R03,Liaquat Bagh,33.6053,73.0673,active
+R04,Committeee Chowk ,33.6166,73.0722,active
+R05,Waris Khan ,33.6234,73.0754,active
+R06,Chandni Chowk,33.6234,73.0792,active
+R07,Rehmanabad ,33.6358,73.0825,active
+R08,6th Road ,33.6424,73.0886,active
+R09,Shamsabad,33.6508,73.0853,active
+R10,IJP,33.6583,73.0759,active
+R11,Potohar,33.6644,73.0658,active
+R12,Khayaban-e-Johar,33.6706,73.0558,active
+R13,Faiz Ahmed Faiz,33.6766,73.0458,active
+R14,Kashmir Highway,33.6823,73.0552,active
+R15,PIMS,33.7042,73.0552,active
+R16,Stock Exchange,33.7128,73.0682,active
+R17,7th Avenue,33.7212,73.0818,active
+R18,Shaheed-e-Milat,33.7289,73.0938,active
+R19,Parade Ground ,33.7337,73.1025,active
+R20,Pak Sectariat,33.7391,73.1114,active
+O01,Faiz Ahmed Faiz,33.6766,73.0458,active
+O02,NUST(H-12),33.6455,72.9904,active
+O03,G-13(Golra Mor),33.6397,72.9731,active
+O04,G-14(Top City),33.6305,72.9304,active
+O05,G-15,33.6235,72.9105,active
+O06,Islamabad Airport (Terminal),33.5597,72.8488,active
+BL01,Zero Point ,33.6934,73.0853,active
+BL02,Faizabad(Interchange),33.6508,73.0853,active
+BL03,Sohan,33.6415,73.1042,active
+BL04,Khanna Pul,33.6189,73.1365,active
+BL05,Koral Chowk,33.5932,73.1587,active
+BL06,Gulberg Green,33.5714,73.1652,active

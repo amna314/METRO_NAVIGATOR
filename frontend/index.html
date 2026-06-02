@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Metro Navigator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .search-section {
+            background: #f5f5f5;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        select, button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .result-section {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            display: none;
+        }
+        
+        .result-section.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .route-path {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .route-station {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .station-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .info-card {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .stat-card {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-size: 18px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .swap-button {
+            background: #ff9800;
+            margin-top: 10px;
+        }
+        
+        .swap-button:hover {
+            background: #f57c00;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚆 AI-Powered Metro Navigator</h1>
+        <p class="subtitle">Find the fastest route between metro stations</p>
+        
+        <div class="search-section">
+            <div class="input-group">
+                <label>📍 From Station:</label>
+                <select id="source">
+                    <option value="">-- Select Source Station --</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>🏁 To Station:</label>
+                <select id="destination">
+                    <option value="">-- Select Destination Station --</option>
+                </select>
+            </div>
+            
+            <button id="swapBtn" class="swap-button">🔄 Swap Stations</button>
+            
+            <button id="searchBtn">🚆 Find Route</button>
+        </div>
+        
+        <div id="result" class="result-section"></div>
+        
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="stationCount">0</div>
+                <div class="stat-label">Total Stations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="routeCount">0</div>
+                <div class="stat-label">Total Routes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="status">⚡</div>
+                <div class="stat-label">System Status</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let stations = [];
+        
+        // Load stations when page loads
+        async function loadStations() {
+            try {
+                const response = await fetch('/api/stations');
+                const data = await response.json();
+                
+                if (data.success) {
+                    stations = data.stations;
+                    document.getElementById('stationCount').innerText = data.count;
+                    
+                    const sourceSelect = document.getElementById('source');
+                    const destSelect = document.getElementById('destination');
+                    
+                    // Clear existing options
+                    sourceSelect.innerHTML = '<option value="">-- Select Source Station --</option>';
+                    destSelect.innerHTML = '<option value="">-- Select Destination Station --</option>';
+                    
+                    // Add stations to dropdowns
+                    stations.forEach(station => {
+                        const stationName = station.station_name;
+                        const option1 = document.createElement('option');
+                        option1.value = stationName;
+                        option1.textContent = stationName;
+                        sourceSelect.appendChild(option1);
+                        
+                        const option2 = document.createElement('option');
+                        option2.value = stationName;
+                        option2.textContent = stationName;
+                        destSelect.appendChild(option2);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading stations:', error);
+                document.getElementById('stationCount').innerText = '?';
+            }
+        }
+        
+        // Load routes count
+        async function loadRoutes() {
+            try {
+                const response = await fetch('/api/routes');
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('routeCount').innerText = data.count;
+                    document.getElementById('status').innerHTML = '✅';
+                }
+            } catch (error) {
+                console.error('Error loading routes:', error);
+                document.getElementById('routeCount').innerText = '?';
+                document.getElementById('status').innerHTML = '⚠️';
+            }
+        }
+        
+        // Search route
+        async function searchRoute() {
+            const source = document.getElementById('source').value;
+            const destination = document.getElementById('destination').value;
+            const resultDiv = document.getElementById('result');
+            
+            // Validate inputs
+            if (!source) {
+                showError('Please select a source station');
+                return;
+            }
+            
+            if (!destination) {
+                showError('Please select a destination station');
+                return;
+            }
+            
+            if (source === destination) {
+                showError('Source and destination cannot be the same');
+                return;
+            }
+            
+            // Show loading
+            resultDiv.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Finding best route...
+                </div>
+            `;
+            resultDiv.classList.add('show');
+            
+            try {
+                const response = await fetch('/api/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        source: source,
+                        destination: destination
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayRoute(data);
+                } else {
+                    showError(data.error || 'No route found');
+                }
+            } catch (error) {
+                showError('Network error. Make sure the server is running.');
+            }
+        }
+        
+        // Display route results
+        function displayRoute(data) {
+            const resultDiv = document.getElementById('result');
+            
+            let html = `
+                <h3>✅ Route Found!</h3>
+                <div class="info-card">
+                    <strong>📍 From:</strong> ${data.source}<br>
+                    <strong>🏁 To:</strong> ${data.destination}<br>
+                    <strong>⏱️ Estimated Time:</strong> ${data.estimated_time}<br>
+                    <strong>🚉 Number of Stops:</strong> ${data.number_of_stops}<br>
+                    <strong>📍 Total Stations:</strong> ${data.number_of_stations}
+                </div>
+                <div class="route-path">
+                    <strong>🗺️ Route Path:</strong>
+            `;
+            
+            data.path.forEach((station, index) => {
+                html += `
+                    <div class="route-station">
+                        <div class="station-number">${index + 1}</div>
+                        <div>🚉 ${station}</div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+            resultDiv.innerHTML = html;
+        }
+        
+        // Show error message
+        function showError(message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="error">
+                    <strong>❌ Error:</strong> ${message}
+                </div>
+            `;
+            resultDiv.classList.add('show');
+        }
+        
+        // Swap stations
+        function swapStations() {
+            const source = document.getElementById('source');
+            const destination = document.getElementById('destination');
+            const temp = source.value;
+            source.value = destination.value;
+            destination.value = temp;
+        }
+        
+        // Event listeners
+        document.getElementById('searchBtn').addEventListener('click', searchRoute);
+        document.getElementById('swapBtn').addEventListener('click', swapStations);
+        
+        // Load data on page load
+        loadStations();
+        loadRoutes();
+        
+        // Auto-refresh stats every 30 seconds
+        setInterval(loadRoutes, 30000);
+    </script>
+</body>
+</html>

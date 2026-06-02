@@ -1,0 +1,5 @@
+id (PK),name,email,password_hash,role,user_id,created_at
+U01,Test User,user@test.com,hashed_password_here,user,,
+U02,Test Admin,admin@test.com,hashed_password_here,admin,,
+U03,Test Admin,admin@test.com,hashed_password_here,admin,,
+,Amna Shaheen,amnashaheen343@gmail.com,8bb0cf6eb9b17d0f7d22b456f121257dc1254e1f01665370476383ea776df414,user,U8295,2026-05-15 19:17:00

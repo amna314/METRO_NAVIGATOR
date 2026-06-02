@@ -1,0 +1,6 @@
+id (PK),user_id (FK),message,rating,created_at,status
+1,U01,Very helpful app,5,2026-04-20 10:00:00,pending
+2,U02,Easy to use and clear routes,4,2026-04-21 12:30:00,reviewed
+3,U01,Time estimates are accurate,5,2026-04-21 15:45:00,reviewed
+4,U03,Navigation can be improved,3,2026-04-22 09:20:00,pending
+5,U02,Good experience overall,4,2026-04-22 11:10:00,resolved

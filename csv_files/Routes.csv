@@ -1,0 +1,3 @@
+route_id (PK),route_name,line_color,start_station_id,end_station_id
+RT01,Red Line Route,red,R01,R10
+RT02,Orange Line Route,orange,O01,BL01

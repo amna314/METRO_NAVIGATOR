@@ -1,0 +1,9 @@
+schedule_id (PK),route_id (FK),bus_id (FK),departure_time,arrival_time,day_of_week,status
+SCH01,RT01,B001,06:00:00,22:00:00,Daily,active
+SCH02,RT01,B002,06:10:00,22:00:00,Daily,active
+SCH03,RT01,B003,06:20:00,22:00:00,Daily,active
+SCH04,RT01,B004,06:30:00,22:00:00,Daily,active
+SCH05,RT02,B005,06:30:00,21:30:00,Daily,active
+SCH06,RT02,B006,06:42:00,21:30:00,Daily,active
+SCH07,RT02,B007,06:54:00,21:30:00,Daily,active
+SCH08,RT02,B008,07:06:00,21:30:00,Daily,active
