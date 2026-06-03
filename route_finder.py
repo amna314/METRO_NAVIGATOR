@@ -28,11 +28,11 @@ class MetroRouteFinder:
             self.graph[station_id] = []
         
         # Add edges based on route_stations (consecutive stations)
-        sorted_route_stations = self.route_stations.sort_values(['route_id', 'stop_sequence'])
+        sorted_route_stations = self.route_stations.sort_values(['route_id (FK)', 'sequence_number'])
         
-        for route_id in sorted_route_stations['route_id'].unique():
-            route_stations = sorted_route_stations[sorted_route_stations['route_id'] == route_id]
-            station_ids = route_stations['station_id'].tolist()
+        for route_id in sorted_route_stations['route_id (FK)'].unique():
+            route_stations = sorted_route_stations[sorted_route_stations['route_id (FK)'] == route_id]
+            station_ids = route_stations['station_id (FK)'].tolist()
             
             # Connect consecutive stations
             for i in range(len(station_ids) - 1):
@@ -86,9 +86,12 @@ class MetroRouteFinder:
     def find_route(self, source_name, dest_name):
         """Find route between two stations by name"""
         # Find station IDs
-        source = self.stations[self.stations['station_name'].str.contains(source_name, case=False)]
-        dest = self.stations[self.stations['station_name'].str.contains(dest_name, case=False)]
-        
+        source_name = source_name.strip()
+        dest_name = dest_name.strip()
+
+        source = self.stations[self.stations['station_name'].str.strip().str.lower() == source_name.lower()]
+        dest = self.stations[self.stations['station_name'].str.strip().str.lower() == dest_name.lower()]
+
         if source.empty:
             return {'error': f"Station '{source_name}' not found"}
         if dest.empty:
